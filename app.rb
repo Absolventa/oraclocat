@@ -7,16 +7,13 @@ require './developers'
 
 # Public
 get '/' do
-  # ToDo: load array from file to make it open source?
-  @merger    = choose_from DEVELOPERS
+  @merger = choose_from DEVELOPERS
   haml :index
 end
 
 # Helpers
 helpers do
   def choose_from(collection)
-    index  = rand(collection.keys.length)
-    key = collection.keys[index-1]
-    key
+    collection.keys[rand(collection.keys.length)-1]
   end
 end
