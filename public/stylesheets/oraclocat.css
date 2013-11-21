@@ -13,14 +13,26 @@ h5 {
   font-style: italic;
 }
 
-.container {
-    font-family: "Arial";
-    text-align: center;
-    margin-left: 50px;
-    margin-top: 50px;
-    background-color: white;
-    width: 500px;
-    height: 450px;
-    border: 1px solid black;
-    border-radius: 15px;
-  }
+.box-mini{
+  padding: 15px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.control-group{
+  margin-left: 75px;
+  text-align: left;
+}
+.box {
+  clear: both;
+  overflow: hidden;
+  font-family: "Helvetica";
+  text-align: center;
+  margin: 50px;
+  background-color: white;
+  width: 800px;
+  border: 1px solid black;
+  border-radius: 15px;
+}

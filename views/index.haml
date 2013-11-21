@@ -1,5 +1,19 @@
-.container
-  %img{ src: "images/shared/octocats.png" }
-  %h5 Who's gonna merge?
-  %h4 Oraclocat says:
-  %h1 #{@merger} will merge your Pull Request!
+.span12.box
+  .span10
+    %img{ src: "images/shared/octocats.png" }
+    %center
+      %h1 Who's gonna merge?
+    .span4.box-mini
+      %p
+        .control-group
+          %label
+            Repo:
+          %input{ class: 'span2' }
+          %label
+            PR #
+          %input{ class: 'span2' }
+      %p
+        %button{ class: 'btn btn-large'} Ask Oraclocat
+    .span4.box-mini
+      %h4 Oraclocat says:
+      %h2 #{@merger} will merge your Pull Request!
