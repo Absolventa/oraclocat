@@ -7,6 +7,10 @@ require './developers'
 
 # Public
 get '/' do
+  haml :index
+end
+
+get '/aleaiactaest' do
   @merger = choose_from DEVELOPERS
   haml :index
 end
