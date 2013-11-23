@@ -16,9 +16,9 @@
     - if @merger
       .span4.box-mini
         %h4 Oraclocat says:
-        %h2 #{@merger} will merge your Pull Request
+        %h2 #{@merger} will merge your Pull Request!
 
-
+  - if @merger
+    %h6 Go for it, #{DEVELOPERS[@merger][:github]}!
   %small
     assignee automation is not implemented yet. It's planned. Stay tuned :) | © Robin 2013
-
