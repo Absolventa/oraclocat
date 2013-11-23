@@ -1,24 +1,15 @@
-.span12.box
-  .span10
-    %img{ src: "images/shared/octocats.png" }
-    %center
-      %h1 Who's gonna merge?
-    .span4.box-mini
-      %form{ action: '/aleaiactaest' }
-        %p
-          .control-group
-            %label
-              Pull Request URL:
-            %input{ class: 'span2' }
-        %p
-          %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
-
-    - if @merger
-      .span4.box-mini
-        %h4 Oraclocat says:
-        %h2 #{@merger} will merge your Pull Request!
-
+.span10.box
+  %img{ src: "images/shared/octocats.png" }
+  %center
+    %h1 Who's gonna merge?
+    %br
+    %form{ action: '/aleaiactaest' }
+      %p
+        %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
   - if @merger
-    %h6 Go for it, #{DEVELOPERS[@merger][:github]}!
+    .box-mini
+      %h4 Oraclocat says:
+      %h2 #{@merger} will merge your Pull Request!
+      %h6 Go for it, #{DEVELOPERS[@merger][:github]}!
   %small
-    Assignee automation is not implemented yet. It's planned. Stay tuned :)  |  © Robin Neumann / Absolventa GmbH 2013
+    © Robin Neumann | Absolventa GmbH 2013

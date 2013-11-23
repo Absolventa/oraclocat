@@ -4,5 +4,5 @@ DEVELOPERS = {
   "Alex"    => { github: "@agieche"      },
   "Robin"   => { github: "@neumanrq"     },
   "Felix"   => { github: "@felixmohnert" },
-  "Markus" =>  { github: "@axlwaii"      }
+  "Markus"  => { github: "@axlwaii"      }
 }
