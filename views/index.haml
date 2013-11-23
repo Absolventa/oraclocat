@@ -8,17 +8,17 @@
         %p
           .control-group
             %label
-              Repo:
-            %input{ class: 'span2' }
-            %label
-              PR #
+              Pull Request URL:
             %input{ class: 'span2' }
         %p
           %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
 
-    .span4.box-mini
-      - if @merger
+    - if @merger
+      .span4.box-mini
         %h4 Oraclocat says:
-        %h2 #{@merger} will merge your Pull Request!
-      - else
-        %h2 Ask Oraclocat!
+        %h2 #{@merger} will merge your Pull Request
+
+
+  %small
+    assignee automation is not implemented yet. It's planned. Stay tuned :) | © Robin 2013
+
