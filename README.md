@@ -10,5 +10,3 @@ of available developers like
     DEVELOPERS = {
         "Nathan der Weise" => { github: "@nathan" }
       }
-
-developers.rb will be ignored by git to keep it agnostic.
