@@ -16,6 +16,7 @@ CLIENT_SECRET = '40410be1ec268fd8928c7927d5355c9c98b4098b'
 
 # Public
 get '/' do
+  @github_scopes = ["user:email", "read:org", "repo"].join(',')
   @client_id = CLIENT_ID
   haml :index
 end
