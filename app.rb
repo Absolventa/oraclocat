@@ -1,15 +1,22 @@
 require 'sinatra'
 require 'sinatra/url_for'
 require 'sinatra/static_assets'
-require 'haml'
 require './environments'
 require './developers'
 
+require 'json'
+require 'rubygems'
+require 'bundler'
+Bundler.require
+
 enable :sessions
+
+CLIENT_ID     = '0e9c4388720416dadd00'
+CLIENT_SECRET = '40410be1ec268fd8928c7927d5355c9c98b4098b'
 
 # Public
 get '/' do
-  @client_id = '0e9c4388720416dadd00'
+  @client_id = CLIENT_ID
   haml :index
 end
 
