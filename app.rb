@@ -34,9 +34,10 @@ end
 
 get '/repos' do
   ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET, session['access_token'])
-  result = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
+  full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
 
-  result.inspect
+  @repo_names = full_repos.map { |repo| repo['name'] }.sort
+  haml :repos
 end
 
 # Helpers
