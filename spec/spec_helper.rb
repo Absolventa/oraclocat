@@ -1,13 +1,18 @@
 require 'rubygems'
+require 'bundler'
+
+Bundler.setup
 require 'rack/test'
+require File.expand_path '../../app.rb', __FILE__
 
 ENV["RACK_ENV"] ||= 'test'
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+module RSpecMixin
+  include Rack::Test::Methods
+  def app() Sinatra::Application end
+end
 
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
+  config.include RSpecMixin
 end
