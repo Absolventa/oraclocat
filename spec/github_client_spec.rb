@@ -52,25 +52,27 @@ describe GithubClient do
   end
 
   describe '#fetch' do
-    before do
-      subject.access_token = 'foobarbaz'
-
-      expect(RestClient).to receive(:get).
-        with('http://oraclocat.local',
-          {
-            client_id: subject.client_id,
-            client_secret: subject.client_secret
-          },
-          accept: :json,
-          "Authorization" => "token #{subject.access_token}"
-
-        ).and_return({ 'hello' => 'negative 1' }.to_json)
-
-    end
-
     it 'makes the request without token' do
-      result = subject.fetch('http://oraclocat.local')
+      url                  = 'http://oraclocat.local'
+      subject.access_token = 'foobarbaz'
+      stub_github_fetch(url) { { 'hello' => 'negative 1' } }
+
+      result = subject.fetch(url)
       expect(result).to be_a Hash
     end
   end
+
+  def stub_github_fetch(url)
+    return_value = block_given? ? yield : {}
+    expect(RestClient).to receive(:get).
+      with(url,
+        {
+          client_id:     subject.client_id,
+          client_secret: subject.client_secret
+        },
+        accept: :json,
+        "Authorization" => "token #{subject.access_token}"
+      ).and_return(return_value.to_json)
+  end
+
 end
