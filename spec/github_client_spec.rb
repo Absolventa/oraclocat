@@ -51,4 +51,26 @@ describe GithubClient do
     end
   end
 
+  describe '#fetch' do
+    before do
+      subject.access_token = 'foobarbaz'
+
+      expect(RestClient).to receive(:get).
+        with('http://oraclocat.local',
+          {
+            client_id: subject.client_id,
+            client_secret: subject.client_secret
+          },
+          accept: :json,
+          "Authorization" => "token #{subject.access_token}"
+
+        ).and_return({ 'hello' => 'negative 1' }.to_json)
+
+    end
+
+    it 'makes the request without token' do
+      result = subject.fetch('http://oraclocat.local')
+      expect(result).to be_a Hash
+    end
+  end
 end

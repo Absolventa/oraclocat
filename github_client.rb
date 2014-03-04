@@ -22,4 +22,16 @@ class GithubClient
     self.access_token = JSON.parse(result)['access_token']
   end
 
+  def fetch url
+    result = RestClient.get(
+      url,
+      {
+        client_id:     client_id,
+        client_secret: client_secret
+      },
+      accept: :json, 'Authorization' => "token #{access_token}"
+    )
+    JSON.parse(result)
+  end
+
 end
