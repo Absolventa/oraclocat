@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'securerandom'
 
 describe "Oraclocat" do
   it "accesses the front page" do
