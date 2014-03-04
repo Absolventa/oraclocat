@@ -28,13 +28,8 @@ get '/aleaiactaest' do
 end
 
 get '/callback' do
-  result = RestClient.post('https://github.com/login/oauth/access_token',
-                           {:client_id => CLIENT_ID,
-                             :client_secret => CLIENT_SECRET,
-                             :code => params[:code]},
-                             :accept => :json)
-
-  session[:access_token] = JSON.parse(result)['access_token']
+  ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET)
+  session[:access_token] = ghc.get_access_token! params[:code]
 end
 
 # Helpers
