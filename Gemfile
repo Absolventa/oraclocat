@@ -7,3 +7,4 @@ gem "emk-sinatra-url-for"
 gem "sinatra-static-assets"
 gem "rack-test"
 gem "rspec"
+gem 'rest_client'
