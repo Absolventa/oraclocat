@@ -9,7 +9,8 @@ describe "Oraclocat" do
 
   describe 'GET /callback' do
     it 'takes a session code and asks GH for an access token' do
-      code = SecureRandom.hex(8)
+      code         = 'somecode'
+      access_token = 'my_access_token'
 
       expect(RestClient).to receive(:post).
         with('https://github.com/login/oauth/access_token',
@@ -19,10 +20,10 @@ describe "Oraclocat" do
             code: code
           },
           accept: :json
-        ).and_return('my_access_token')
+        ).and_return({ access_token: access_token }.to_json)
 
       get "/callback?code=#{code}"
-      expect(session[:code]).to eql code
+      expect(session[:access_token]).to eql access_token
     end
   end
 
