@@ -55,4 +55,13 @@ describe "Oraclocat" do
     end
   end
 
+  describe 'GET /logout' do
+    it 'clears the session and redirects to "/"' do
+      get '/logout', {}, { 'rack.session' => { 'access_token' => 'is present' } }
+      expect(session).to be_empty
+      expect(last_response).to be_redirect
+      expect(last_response.headers['Location']).to eql 'http://example.org/'
+    end
+  end
+
 end

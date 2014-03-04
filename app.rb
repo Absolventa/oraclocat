@@ -44,6 +44,11 @@ get '/repos' do
   end
 end
 
+get '/logout' do
+  session.clear
+  redirect '/'
+end
+
 # Helpers
 helpers do
   def choose_from(collection)
