@@ -27,6 +27,14 @@ end
 
 get '/callback' do
   session[:code] = params[:code]
+  result = RestClient.post('https://github.com/login/oauth/access_token',
+                           {:client_id => CLIENT_ID,
+                             :client_secret => CLIENT_SECRET,
+                             :code => session[:code]},
+                             :accept => :json)
+  # extract the token and granted scopes
+  access_token = JSON.parse(result)['access_token']
+
 end
 
 # Helpers
