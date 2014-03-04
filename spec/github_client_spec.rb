@@ -67,11 +67,13 @@ describe GithubClient do
     expect(RestClient).to receive(:get).
       with(url,
         {
-          client_id:     subject.client_id,
-          client_secret: subject.client_secret
+          params: {
+            client_id:     subject.client_id,
+            client_secret: subject.client_secret
+          },
+          accept: :json,
+          "Authorization" => "token #{subject.access_token}"
         },
-        accept: :json,
-        "Authorization" => "token #{subject.access_token}"
       ).and_return(return_value.to_json)
   end
 

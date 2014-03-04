@@ -26,10 +26,13 @@ class GithubClient
     result = RestClient.get(
       url,
       {
-        client_id:     client_id,
-        client_secret: client_secret
-      },
-      accept: :json, 'Authorization' => "token #{access_token}"
+        params: {
+          client_id:     client_id,
+          client_secret: client_secret
+        },
+        accept: :json,
+        'Authorization' => "token #{access_token}"
+      }
     )
     JSON.parse(result)
   end
