@@ -33,11 +33,15 @@ get '/callback' do
 end
 
 get '/repos' do
-  ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET, session['access_token'])
-  full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
+  if session['access_token']
+    ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET, session['access_token'])
+    full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
 
-  @repo_names = full_repos.map { |repo| repo['name'] }.sort
-  haml :repos
+    @repo_names = full_repos.map { |repo| repo['name'] }.sort
+    haml :repos
+  else
+    redirect '/'
+  end
 end
 
 # Helpers

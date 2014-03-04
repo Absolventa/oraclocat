@@ -29,7 +29,9 @@ describe "Oraclocat" do
 
   describe 'GET /repos' do
     it 'redirects to root if access token is not present' do
-      pending
+      get '/repos'
+      expect(last_response).to be_redirect
+      expect(last_response.headers['Location']).to eql 'http://example.org/'
     end
 
     it 'fetches a list of all available repositories' do
@@ -47,7 +49,7 @@ describe "Oraclocat" do
       }]
       expect_any_instance_of(GithubClient).
         to receive(:fetch).and_return(repolist)
-      get '/repos'
+      get '/repos', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
       expect(last_response.body).to match 'streetcountdown'
     end
