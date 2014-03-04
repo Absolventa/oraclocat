@@ -27,4 +27,30 @@ describe "Oraclocat" do
     end
   end
 
+  describe 'GET /repos' do
+    it 'redirects to root if access token is not present' do
+      pending
+    end
+
+    it 'fetches a list of all available repositories' do
+      repolist = [{
+        'id' => '47110815',
+        'name' => 'streetcountdown',
+        'full_name' => 'Absolventa/streetcountdown',
+        'owner' => {
+          'login' => 'Absolventa',
+          'type' => 'Organization'
+        },
+        'private' => true,
+        'description' => 'I have my long undergarments, so I should be ok',
+        'collaborators_url' => 'oh yeah baby, right there!'
+      }]
+      expect_any_instance_of(GithubClient).
+        to receive(:fetch).and_return(repolist)
+      get '/repos'
+      expect(last_response).to be_ok
+      expect(last_response.body).to match 'streetcountdown'
+    end
+  end
+
 end

@@ -32,6 +32,13 @@ get '/callback' do
   session[:access_token] = ghc.get_access_token! params[:code]
 end
 
+get '/repos' do
+  ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET, session['access_token'])
+  result = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
+
+  result.inspect
+end
+
 # Helpers
 helpers do
   def choose_from(collection)
