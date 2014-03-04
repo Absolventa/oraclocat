@@ -2,6 +2,8 @@
   %img{ src: "images/shared/octocats.png" }
   %center
     %h1 Who's gonna merge?
+    %a{ href: 'https://github.com/login/oauth/authorize?scope=user:email&client_id=' + @client_id }
+      Login with GitHub
     %br
     %form{ action: '/aleaiactaest' }
       %p

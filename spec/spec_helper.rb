@@ -10,6 +10,10 @@ ENV["RACK_ENV"] ||= 'test'
 module RSpecMixin
   include Rack::Test::Methods
   def app() Sinatra::Application end
+
+  def session
+    last_request.env['rack.session']
+  end
 end
 
 RSpec.configure do |config|
