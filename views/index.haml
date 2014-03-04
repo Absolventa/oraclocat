@@ -2,9 +2,9 @@
   %img{ src: "images/shared/octocats.png" }
   %center
     %h1 Who's gonna merge?
-    %a{ href: "https://github.com/login/oauth/authorize?scope=#{@github_scopes}&client_id=#{@client_id}" }
-      Login with GitHub
-    %br
+    %p
+      %a{ href: "https://github.com/login/oauth/authorize?scope=#{@github_scopes}&client_id=#{@client_id}", class: 'btn btn-medium' }
+        Login with GitHub
     %form{ action: '/aleaiactaest' }
       %p
         %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
