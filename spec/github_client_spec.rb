@@ -77,4 +77,31 @@ describe GithubClient do
       ).and_return(return_value.to_json)
   end
 
+  describe '#user' do
+    it 'retuns nil if access_token is missing' do
+      expect(subject.user).to be_nil
+    end
+
+    it 'fetches the user data and caches the return value' do
+      endpoint = 'https://api.github.com/user'
+      result   = {
+        avatar_url:  'https://github.com/images/error/octocat_happy.gif',
+        email:       'octocat@github.com',
+        login:       'octocat',
+        name:        'monalisa octocat'
+      }
+      expect(subject).to receive(:fetch).with(endpoint).and_return(result).once
+      subject.access_token = 'fizzbuzz'
+
+      expect(subject.user).not_to be_nil
+
+      user = subject.user
+      result.keys.each do |attribute|
+        expect(user).to respond_to attribute
+      end
+
+    end
+
+  end
+
 end
