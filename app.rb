@@ -14,8 +14,13 @@ Dotenv.load
 
 enable :sessions
 
-CLIENT_ID     = '0e9c4388720416dadd00'
-CLIENT_SECRET = '40410be1ec268fd8928c7927d5355c9c98b4098b'
+configure do
+  set :client_id,     ENV['GH_CLIENT_ID']
+  set :client_secret, ENV['GH_CLIENT_SECRET']
+end
+
+CLIENT_ID     = settings.client_id
+CLIENT_SECRET = settings.client_secret
 
 # Public
 get '/' do

@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe "Oraclocat" do
+
+  describe 'its configuration' do
+    it 'gets its client id from the environment' do
+      expect(app.settings.client_id).to eql ENV['GH_CLIENT_ID']
+    end
+
+    it 'gets its client secret from the environment' do
+      expect(app.settings.client_secret).to eql ENV['GH_CLIENT_SECRET']
+    end
+  end
+
   it "accesses the front page" do
     get '/'
     expect(last_response).to be_ok
@@ -14,8 +25,8 @@ describe "Oraclocat" do
       expect(RestClient).to receive(:post).
         with('https://github.com/login/oauth/access_token',
           {
-            client_id: CLIENT_ID,
-            client_secret: CLIENT_SECRET,
+            client_id: app.settings.client_id,
+            client_secret: app.settings.client_secret,
             code: code
           },
           accept: :json
