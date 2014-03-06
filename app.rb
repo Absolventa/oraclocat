@@ -17,7 +17,7 @@ enable :sessions
 configure do
   set :client_id,     ENV['GH_CLIENT_ID']
   set :client_secret, ENV['GH_CLIENT_SECRET']
-  set :github_scopes, ['user:email', 'read:org', 'repo']
+  set :github_scopes, ['user', 'read:org', 'repo']
 end
 
 # Public
