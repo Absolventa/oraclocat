@@ -41,7 +41,6 @@ class GithubClient
     if access_token
       @user ||= begin
                   result = fetch 'https://api.github.com/user'
-                  puts result['name'].inspect
                   # OPTIMIZE Put me into a seperate class
                   Struct.new(:avatar_url, :email, :login, :name).new.tap do |user|
                     user.avatar_url = result['avatar_url']
