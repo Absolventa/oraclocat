@@ -19,13 +19,10 @@ configure do
   set :client_secret, ENV['GH_CLIENT_SECRET']
 end
 
-CLIENT_ID     = settings.client_id
-CLIENT_SECRET = settings.client_secret
-
 # Public
 get '/' do
   @github_scopes = ["user:email", "read:org", "repo"].join(',')
-  @client_id = CLIENT_ID
+  @client_id = settings.client_id
   haml :index
 end
 
@@ -35,13 +32,13 @@ get '/aleaiactaest' do
 end
 
 get '/callback' do
-  ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET)
+  ghc = GithubClient.new(settings.client_id, settings.client_secret)
   session[:access_token] = ghc.get_access_token! params[:code]
 end
 
 get '/repos' do
   if session['access_token']
-    ghc = GithubClient.new(CLIENT_ID, CLIENT_SECRET, session['access_token'])
+    ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
     full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort
