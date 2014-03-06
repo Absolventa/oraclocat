@@ -17,12 +17,11 @@ enable :sessions
 configure do
   set :client_id,     ENV['GH_CLIENT_ID']
   set :client_secret, ENV['GH_CLIENT_SECRET']
+  set :github_scopes, ['user:email', 'read:org', 'repo']
 end
 
 # Public
 get '/' do
-  @github_scopes = ["user:email", "read:org", "repo"].join(',')
-  @client_id = settings.client_id
   haml :index
 end
 
@@ -57,5 +56,11 @@ end
 helpers do
   def choose_from(collection)
     collection.keys[rand(collection.keys.length)-1]
+  end
+
+  def github_login_path
+    client_id = Sinatra::Application.settings.client_id
+    scopes    = Sinatra::Application.settings.github_scopes.join(',')
+    "https://github.com/login/oauth/authorize?scope=#{scopes}&client_id=#{client_id}"
   end
 end

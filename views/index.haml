@@ -3,7 +3,7 @@
   %center
     %h1 Who's gonna merge?
     %p
-      %a{ href: "https://github.com/login/oauth/authorize?scope=#{@github_scopes}&client_id=#{@client_id}", class: 'btn btn-medium' }
+      %a{ href: github_login_path, class: 'btn btn-medium' }
         Login with GitHub
     %form{ action: '/aleaiactaest' }
       %p
