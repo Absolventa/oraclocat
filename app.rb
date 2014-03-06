@@ -22,10 +22,12 @@ end
 
 # Public
 get '/' do
+  @ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
   haml :index
 end
 
 get '/aleaiactaest' do
+  @ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
   @merger = choose_from DEVELOPERS
   haml :index
 end

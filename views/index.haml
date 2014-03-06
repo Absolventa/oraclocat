@@ -3,8 +3,13 @@
   %center
     %h1 Who's gonna merge?
     %p
-      %a{ href: github_login_path, class: 'btn btn-medium' }
-        Login with GitHub
+      - if @ghc.user
+        Logged in as #{@ghc.user.name} -
+        %a{ href: '/logout' }
+          Logout
+      - else
+        %a{ href: github_login_path, class: 'btn btn-medium' }
+          Login with GitHub
     %form{ action: '/aleaiactaest' }
       %p
         %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
