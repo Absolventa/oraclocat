@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    dotenv (0.10.0)
     emk-sinatra-url-for (0.2.1)
       sinatra (>= 0.9.1.1)
     haml (4.0.4)
@@ -34,6 +35,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   emk-sinatra-url-for
   haml
   rack-test

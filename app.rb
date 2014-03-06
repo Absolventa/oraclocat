@@ -10,6 +10,8 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
+Dotenv.load
+
 enable :sessions
 
 CLIENT_ID     = '0e9c4388720416dadd00'

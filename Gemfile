@@ -8,3 +8,4 @@ gem "sinatra-static-assets"
 gem "rack-test"
 gem "rspec"
 gem 'rest_client'
+gem 'dotenv'
