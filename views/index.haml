@@ -2,7 +2,14 @@
   %img{ src: "images/shared/octocats.png" }
   %center
     %h1 Who's gonna merge?
-    %br
+    %p
+      - if @ghc.user
+        Logged in as #{@ghc.user.name} -
+        %a{ href: '/logout' }
+          Logout
+      - else
+        %a{ href: github_login_path, class: 'btn btn-medium' }
+          Login with GitHub
     %form{ action: '/aleaiactaest' }
       %p
         %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
