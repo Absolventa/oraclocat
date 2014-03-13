@@ -22,12 +22,12 @@ end
 
 # Public
 get '/' do
-  @ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
+  @ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
   haml :index
 end
 
 get '/aleaiactaest' do
-  @ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
+  @ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
   @merger = choose_from DEVELOPERS
   haml :index
 end
@@ -38,8 +38,8 @@ get '/callback' do
 end
 
 get '/repos' do
-  if session['access_token']
-    ghc = GithubClient.new(settings.client_id, settings.client_secret, session['access_token'])
+  if access_token
+    ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
     full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort
