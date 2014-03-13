@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'sinatra/url_for'
 require 'sinatra/static_assets'
-require './environments'
 require './developers'
 require './github_client'
 
