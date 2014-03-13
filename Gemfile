@@ -5,7 +5,11 @@ gem "sinatra"
 gem "haml"
 gem "emk-sinatra-url-for"
 gem "sinatra-static-assets"
-gem "rack-test"
-gem "rspec"
 gem 'rest_client'
 gem 'dotenv'
+gem 'rake'
+
+group :test do
+  gem "rspec"
+  gem "rack-test"
+end
