@@ -41,7 +41,7 @@ module GH
     def user
       @user ||= if access_token
                   user = GH::User.new(self)
-                  user.fetch
+                  user.fetch!
                   user
                 end
     end

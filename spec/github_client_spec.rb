@@ -83,7 +83,7 @@ describe GH::Client do
     end
 
     it 'fetches the user data and caches the return value' do
-      expect_any_instance_of(GH::User).to receive(:fetch)
+      expect_any_instance_of(GH::User).to receive(:fetch!)
       subject.access_token = 'fizzbuzz'
       expect(subject.user).to be_instance_of GH::User
     end

@@ -16,7 +16,7 @@ module GH
       @connector = connector
     end
 
-    def fetch
+    def fetch!
       result = connector.fetch self.class.endpoint
       %w(avatar_url email login name).each do |attribute|
         self.instance_variable_set "@#{attribute}", result[attribute]

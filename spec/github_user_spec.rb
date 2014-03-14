@@ -36,11 +36,11 @@ describe GH::User do
     it { expect(described_class.endpoint).to be_frozen }
   end
 
-  describe '#fetch' do
+  describe '#fetch!' do
     it 'pulls the user data from the API' do
       stub_gh_client_fetch! api_response
 
-      subject.fetch
+      subject.fetch!
 
       api_response.each do |key, value|
         expect(subject.public_send key).to eql value
