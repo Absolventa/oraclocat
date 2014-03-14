@@ -4,6 +4,7 @@ require 'sinatra/url_for'
 require 'sinatra/static_assets'
 require './helpers'
 require './developers'
+require 'gh/org'
 require 'gh/user'
 require 'gh/client'
 
@@ -37,12 +38,21 @@ end
 get '/callback' do
   ghc = GH::Client.new(settings.client_id, settings.client_secret)
   session[:access_token] = ghc.get_access_token! params[:code]
+  redirect '/orgs'
 end
 
-get '/repos' do
+get '/orgs' do
+  ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
+  @user = ghc.user
+  haml :orgs
+end
+
+get '/orgs/:org' do
   if access_token
     ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
-    full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
+    org = ghc.user.orgs.detect{|o| o.login == params[:org]}
+
+    full_repos = ghc.fetch "https://api.github.com/orgs/#{org.login}/repos"
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort
     haml :repos

@@ -1,0 +1,11 @@
+.span10.box
+  %img{ src: "images/shared/octocats.png" }
+  %center
+    %h1 Choose your organization
+    %div{ class: 'btn-group'}
+      - @user.orgs.each do |org|
+        %a{ href: "/orgs/#{org.login}", class: 'btn', title: org.login }
+          %img{ src: org.avatar_url, class: 'img-rounded', width: 80, height: 80 }
+
+  %small
+    © Absolventa GmbH 2013-2014

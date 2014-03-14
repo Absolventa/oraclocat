@@ -23,5 +23,13 @@ module GH
       end
     end
 
+    def orgs
+      @orgs ||= begin
+                  connector.fetch("#{self.class.endpoint}/orgs").map do |attributes|
+                    GH::Org.new attributes
+                  end
+                end
+    end
+
   end
 end

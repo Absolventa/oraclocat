@@ -34,23 +34,43 @@ describe "Oraclocat" do
 
       get "/callback?code=#{code}"
       expect(session[:access_token]).to eql access_token
+      expect(last_response).to be_redirect
+      expect(last_response.headers['Location']).to eql 'http://example.org/orgs'
     end
   end
 
-  describe 'GET /repos' do
+  describe 'GET /orgs' do
+    it 'lets the user choose their org' do
+      expect_any_instance_of(GH::User).to receive(:orgs).
+        and_return([GH::Org.new, GH::Org.new])
+      allow_any_instance_of(GH::Client).to receive(:user).
+        and_return GH::User.new(double(fetch: true))
+
+      get "/orgs"
+      expect(last_response.body).to match 'Choose your organization'
+    end
+  end
+
+  describe 'GET /orgs/:org' do
     it 'redirects to root if access token is not present' do
-      get '/repos'
+      get '/orgs/acme'
       expect(last_response).to be_redirect
       expect(last_response.headers['Location']).to eql 'http://example.org/'
     end
 
-    it 'fetches a list of all available repositories' do
+    it 'lists all repos of a given org' do
+      orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
+      expect_any_instance_of(GH::User).to receive(:orgs).
+        and_return(orgs)
+      allow_any_instance_of(GH::Client).to receive(:user).
+        and_return GH::User.new(double(fetch: true))
+
       repolist = [{
         'id' => '47110815',
         'name' => 'streetcountdown',
         'full_name' => 'Absolventa/streetcountdown',
         'owner' => {
-          'login' => 'Absolventa',
+          'login' => 'Abslolventa',
           'type' => 'Organization'
         },
         'private' => true,
@@ -58,8 +78,11 @@ describe "Oraclocat" do
         'collaborators_url' => 'oh yeah baby, right there!'
       }]
       expect_any_instance_of(GH::Client).
-        to receive(:fetch).and_return(repolist)
-      get '/repos', {}, { 'rack.session' => { 'access_token' => 'is present' } }
+        to receive(:fetch).
+        with('https://api.github.com/orgs/Abslolventa/repos').
+        and_return(repolist)
+
+      get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
       expect(last_response.body).to match 'streetcountdown'
     end

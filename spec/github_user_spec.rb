@@ -48,10 +48,29 @@ describe GH::User do
     end
   end
 
-  def stub_gh_client_fetch!(data = nil)
+  describe '#orgs' do
+    before do
+      orglist = [ org_attributes, org_attributes ]
+      stub_gh_client_fetch! orglist, "#{described_class.endpoint}/orgs"
+    end
+
+    it 'returns a list of GH::Org instances' do
+      subject.orgs.each do |org|
+        expect(org).to be_instance_of GH::Org
+      end
+    end
+
+    it 'caches the fetched result' do
+      subject.orgs
+      subject.orgs
+    end
+  end
+
+  def stub_gh_client_fetch!(data = nil, endpoint = nil)
     data ||= api_response
+    endpoint ||= described_class.endpoint
     expect(subject.connector).to receive(:fetch).
-      with(described_class.endpoint).and_return(data)
+      with(endpoint).and_return(data).once
   end
 
   def api_response
@@ -60,6 +79,19 @@ describe GH::User do
       'email'      => 'octocat@github.com',
       'login'      => 'octocat',
       'name'       => 'monalisa octocat'
+    }
+  end
+
+  def org_attributes
+    @attributes ||= {
+      'login'              => 'Absolventa',
+      'id'                 => rand(999999),
+      'url'                => 'https://api.github.com/orgs/Absolventa',
+      'repos_url'          => 'https://api.github.com/orgs/Absolventa/repos',
+      'events_url'         => 'https://api.github.com/orgs/Absolventa/events',
+      'members_url'        => 'https://api.github.com/orgs/Absolventa/members{/member}',
+      'public_members_url' => 'https://api.github.com/orgs/Absolventa/public_members{/member}',
+      'avatar_url'         => 'https://github.com/images/error/octocat_happy.gif'
     }
   end
 
