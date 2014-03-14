@@ -34,6 +34,20 @@ describe "Oraclocat" do
 
       get "/callback?code=#{code}"
       expect(session[:access_token]).to eql access_token
+      expect(last_response).to be_redirect
+      expect(last_response.headers['Location']).to eql 'http://example.org/orgs'
+    end
+  end
+
+  describe 'GET /orgs' do
+    it 'lets the user choose their org' do
+      expect_any_instance_of(GH::User).to receive(:orgs).
+        and_return([GH::Org.new, GH::Org.new])
+      allow_any_instance_of(GH::Client).to receive(:user).
+        and_return GH::User.new(double(fetch: true))
+
+      get "/orgs"
+      expect(last_response.body).to match 'Choose your organization'
     end
   end
 

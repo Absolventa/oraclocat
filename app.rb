@@ -38,6 +38,13 @@ end
 get '/callback' do
   ghc = GH::Client.new(settings.client_id, settings.client_secret)
   session[:access_token] = ghc.get_access_token! params[:code]
+  redirect '/orgs'
+end
+
+get '/orgs' do
+  ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
+  @user = ghc.user
+  haml :orgs
 end
 
 get '/repos' do
