@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GithubClient do
+describe GH::Client do
   subject { described_class.new 'foo', 'bar' }
 
   describe 'its constructor' do

@@ -4,7 +4,7 @@ require 'sinatra/url_for'
 require 'sinatra/static_assets'
 require './helpers'
 require './developers'
-require 'github_client'
+require 'gh/client'
 
 require 'json'
 require 'rubygems'
@@ -23,24 +23,24 @@ end
 
 # Public
 get '/' do
-  @ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
+  @ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
   haml :index
 end
 
 get '/aleaiactaest' do
-  @ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
+  @ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
   @merger = choose_from DEVELOPERS
   haml :index
 end
 
 get '/callback' do
-  ghc = GithubClient.new(settings.client_id, settings.client_secret)
+  ghc = GH::Client.new(settings.client_id, settings.client_secret)
   session[:access_token] = ghc.get_access_token! params[:code]
 end
 
 get '/repos' do
   if access_token
-    ghc = GithubClient.new(settings.client_id, settings.client_secret, access_token)
+    ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
     full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort

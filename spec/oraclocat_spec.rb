@@ -57,7 +57,7 @@ describe "Oraclocat" do
         'description' => 'I have my long undergarments, so I should be ok',
         'collaborators_url' => 'oh yeah baby, right there!'
       }]
-      expect_any_instance_of(GithubClient).
+      expect_any_instance_of(GH::Client).
         to receive(:fetch).and_return(repolist)
       get '/repos', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
