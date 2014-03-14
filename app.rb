@@ -1,9 +1,10 @@
+$:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'sinatra'
 require 'sinatra/url_for'
 require 'sinatra/static_assets'
 require './helpers'
 require './developers'
-require './github_client'
+require 'github_client'
 
 require 'json'
 require 'rubygems'
