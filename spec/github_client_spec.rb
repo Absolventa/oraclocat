@@ -83,25 +83,10 @@ describe GH::Client do
     end
 
     it 'fetches the user data and caches the return value' do
-      endpoint = 'https://api.github.com/user'
-      result   = {
-        avatar_url:  'https://github.com/images/error/octocat_happy.gif',
-        email:       'octocat@github.com',
-        login:       'octocat',
-        name:        'monalisa octocat'
-      }
-      expect(subject).to receive(:fetch).with(endpoint).and_return(result).once
+      expect_any_instance_of(GH::User).to receive(:fetch)
       subject.access_token = 'fizzbuzz'
-
-      expect(subject.user).not_to be_nil
-
-      user = subject.user
-      result.keys.each do |attribute|
-        expect(user).to respond_to attribute
-      end
-
+      expect(subject.user).to be_instance_of GH::User
     end
-
   end
 
 end
