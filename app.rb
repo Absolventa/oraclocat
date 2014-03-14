@@ -4,6 +4,7 @@ require 'sinatra/url_for'
 require 'sinatra/static_assets'
 require './helpers'
 require './developers'
+require 'gh/org'
 require 'gh/user'
 require 'gh/client'
 
