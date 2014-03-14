@@ -52,6 +52,12 @@ describe "Oraclocat" do
   end
 
   describe 'GET /orgs/:org' do
+    it 'redirects to root if access token is not present' do
+      get '/orgs/acme'
+      expect(last_response).to be_redirect
+      expect(last_response.headers['Location']).to eql 'http://example.org/'
+    end
+
     it 'lists all repos of a given org' do
       orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
       expect_any_instance_of(GH::User).to receive(:orgs).
@@ -76,35 +82,7 @@ describe "Oraclocat" do
         with('https://api.github.com/orgs/Abslolventa/repos').
         and_return(repolist)
 
-      get "/orgs/Abslolventa"
-      expect(last_response).to be_ok
-      expect(last_response.body).to match 'streetcountdown'
-    end
-  end
-
-  describe 'GET /repos' do
-    it 'redirects to root if access token is not present' do
-      get '/repos'
-      expect(last_response).to be_redirect
-      expect(last_response.headers['Location']).to eql 'http://example.org/'
-    end
-
-    it 'fetches a list of all available repositories' do
-      repolist = [{
-        'id' => '47110815',
-        'name' => 'streetcountdown',
-        'full_name' => 'Absolventa/streetcountdown',
-        'owner' => {
-          'login' => 'Absolventa',
-          'type' => 'Organization'
-        },
-        'private' => true,
-        'description' => 'I have my long undergarments, so I should be ok',
-        'collaborators_url' => 'oh yeah baby, right there!'
-      }]
-      expect_any_instance_of(GH::Client).
-        to receive(:fetch).and_return(repolist)
-      get '/repos', {}, { 'rack.session' => { 'access_token' => 'is present' } }
+      get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
       expect(last_response.body).to match 'streetcountdown'
     end

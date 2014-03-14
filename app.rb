@@ -48,19 +48,11 @@ get '/orgs' do
 end
 
 get '/orgs/:org' do
-  ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
-  org = ghc.user.orgs.detect{|o| o.login == params[:org]}
-
-  full_repos = ghc.fetch "https://api.github.com/orgs/#{org.login}/repos"
-
-  @repo_names = full_repos.map { |repo| repo['name'] }.sort
-  haml :repos
-end
-
-get '/repos' do
   if access_token
     ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
-    full_repos = ghc.fetch 'https://api.github.com/orgs/Absolventa/repos'
+    org = ghc.user.orgs.detect{|o| o.login == params[:org]}
+
+    full_repos = ghc.fetch "https://api.github.com/orgs/#{org.login}/repos"
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort
     haml :repos
