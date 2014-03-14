@@ -4,7 +4,7 @@
     %h1 Choose your organization
     - @user.orgs.each do |org|
       %div{ class: 'btn-group'}
-        %button{ class: 'btn', title: org.login }
+        %a{ href: "/orgs/#{org.login}", class: 'btn', title: org.login }
           %img{ src: org.avatar_url, class: 'img-rounded', width: 80, height: 80 }
 
   %small
