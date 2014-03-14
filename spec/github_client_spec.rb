@@ -62,6 +62,18 @@ describe GH::Client do
     end
   end
 
+  describe '#user' do
+    it 'retuns nil if access_token is missing' do
+      expect(subject.user).to be_nil
+    end
+
+    it 'fetches the user data and caches the return value' do
+      expect_any_instance_of(GH::User).to receive(:fetch!)
+      subject.access_token = 'fizzbuzz'
+      expect(subject.user).to be_instance_of GH::User
+    end
+  end
+
   def stub_github_fetch(url)
     return_value = block_given? ? yield : {}
     expect(RestClient).to receive(:get).
@@ -75,18 +87,6 @@ describe GH::Client do
           "Authorization" => "token #{subject.access_token}"
         },
       ).and_return(return_value.to_json)
-  end
-
-  describe '#user' do
-    it 'retuns nil if access_token is missing' do
-      expect(subject.user).to be_nil
-    end
-
-    it 'fetches the user data and caches the return value' do
-      expect_any_instance_of(GH::User).to receive(:fetch!)
-      subject.access_token = 'fizzbuzz'
-      expect(subject.user).to be_instance_of GH::User
-    end
   end
 
 end
