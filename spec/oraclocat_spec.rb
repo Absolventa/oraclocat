@@ -51,6 +51,37 @@ describe "Oraclocat" do
     end
   end
 
+  describe 'GET /orgs/:org' do
+    it 'lists all repos of a given org' do
+      orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
+      expect_any_instance_of(GH::User).to receive(:orgs).
+        and_return(orgs)
+      allow_any_instance_of(GH::Client).to receive(:user).
+        and_return GH::User.new(double(fetch: true))
+
+      repolist = [{
+        'id' => '47110815',
+        'name' => 'streetcountdown',
+        'full_name' => 'Absolventa/streetcountdown',
+        'owner' => {
+          'login' => 'Abslolventa',
+          'type' => 'Organization'
+        },
+        'private' => true,
+        'description' => 'I have my long undergarments, so I should be ok',
+        'collaborators_url' => 'oh yeah baby, right there!'
+      }]
+      expect_any_instance_of(GH::Client).
+        to receive(:fetch).
+        with('https://api.github.com/orgs/Abslolventa/repos').
+        and_return(repolist)
+
+      get "/orgs/Abslolventa"
+      expect(last_response).to be_ok
+      expect(last_response.body).to match 'streetcountdown'
+    end
+  end
+
   describe 'GET /repos' do
     it 'redirects to root if access token is not present' do
       get '/repos'
