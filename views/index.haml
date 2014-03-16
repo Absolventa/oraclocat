@@ -3,8 +3,8 @@
   %center
     %h1 Who's gonna merge?
     %p
-      - if @ghc.user
-        Logged in as #{@ghc.user.name} -
+      - if current_user
+        Logged in as #{current_user.name} -
         %a{ href: '/logout' }
           Logout
       - else
