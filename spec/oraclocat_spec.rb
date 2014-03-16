@@ -46,7 +46,7 @@ describe "Oraclocat" do
       allow_any_instance_of(GH::Client).to receive(:user).
         and_return GH::User.new(double(fetch: true))
 
-      get "/orgs"
+      get "/orgs", {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response.body).to match 'Choose your organization'
     end
   end

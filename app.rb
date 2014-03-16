@@ -23,10 +23,6 @@ configure do
   set :github_scopes, ['user', 'read:org', 'repo']
 end
 
-before do
-  @ghc = GH::Client.new(settings.client_id, settings.client_secret, access_token)
-end
-
 # Public
 get '/' do
   haml :index
@@ -38,20 +34,18 @@ get '/aleaiactaest' do
 end
 
 get '/callback' do
-  session[:access_token] = @ghc.get_access_token! params[:code]
+  session[:access_token] = github_client.get_access_token! params[:code]
   redirect '/orgs'
 end
 
 get '/orgs' do
-  @user = @ghc.user
   haml :orgs
 end
 
 get '/orgs/:org' do
   if access_token
-    org = @ghc.user.orgs.detect{|o| o.login == params[:org]}
-
-    full_repos = @ghc.fetch "https://api.github.com/orgs/#{org.login}/repos"
+    org = current_user.orgs.detect{|o| o.login == params[:org]}
+    full_repos = github_client.fetch "https://api.github.com/orgs/#{org.login}/repos"
 
     @repo_names = full_repos.map { |repo| repo['name'] }.sort
     haml :repos

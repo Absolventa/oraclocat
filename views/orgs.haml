@@ -3,7 +3,7 @@
   %center
     %h1 Choose your organization
     %div{ class: 'btn-group'}
-      - @user.orgs.each do |org|
+      - current_user.orgs.each do |org|
         %a{ href: "/orgs/#{org.login}", class: 'btn', title: org.login }
           %img{ src: org.avatar_url, class: 'img-rounded', width: 80, height: 80 }
 
