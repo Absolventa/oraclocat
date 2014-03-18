@@ -8,6 +8,9 @@
         Logged in as <span title="#{access_token}">#{current_user.name}</span> -
         %a{ href: '/logout' }
           Logout
+        |
+        %a{ href: '/orgs' }
+          List orgs
       - else
         %a{ href: github_login_path, class: 'btn btn-medium' }
           Login with GitHub
