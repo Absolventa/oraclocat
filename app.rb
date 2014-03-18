@@ -50,7 +50,7 @@ get '/orgs/:org' do
     @issues = issues.select do |issue|
       issue['pull_request']['html_url'] && !issue['assignee']
     end
-    haml :repos
+    haml :pull_requests
   else
     redirect '/'
   end
