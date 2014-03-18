@@ -49,6 +49,13 @@ get '/orgs/:org' do
 
     @issues = issues.select do |issue|
       issue['pull_request']['html_url'] && !issue['assignee']
+    end.map do |issue|
+      repo = issue['repository']['name']
+      collaborators_url = "https://api.github.com/repos/#{org.login}/#{repo}/collaborators"
+      collaborators     = github_client.fetch(collaborators_url).map do |collab|
+        collab['login'] if collab['login'] != current_user.login
+      end.compact
+      issue.merge('merger' => collaborators.sample)
     end
     haml :pull_requests
   else

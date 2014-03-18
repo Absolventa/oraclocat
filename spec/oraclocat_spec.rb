@@ -69,6 +69,7 @@ describe "Oraclocat" do
         'id' => 47110815,
         'title' => 'Play streetcountdown',
         'repository' => {
+          'name' => 'streetcountdown',
           'full_name' => 'Absolventa/streetcountdown'
         },
         'assignee' => nil,
@@ -80,6 +81,14 @@ describe "Oraclocat" do
         to receive(:fetch).
         with('https://api.github.com/orgs/Abslolventa/issues?filter=created&state=open').
         and_return(issueslist)
+
+      collabslist = [{
+        'login' => 'moss'
+      }]
+      expect_any_instance_of(GH::Client).
+        to receive(:fetch).
+        with('https://api.github.com/repos/Abslolventa/streetcountdown/collaborators').
+        and_return(collabslist)
 
       get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
