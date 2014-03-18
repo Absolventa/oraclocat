@@ -45,9 +45,11 @@ end
 get '/orgs/:org' do
   if access_token
     org = current_user.orgs.detect{|o| o.login == params[:org]}
-    full_repos = github_client.fetch "https://api.github.com/orgs/#{org.login}/repos"
+    issues = github_client.fetch "https://api.github.com/orgs/#{org.login}/issues?filter=created&state=open"
 
-    @repo_names = full_repos.map { |repo| repo['name'] }.sort
+    @issues = issues.select do |issue|
+      issue['pull_request']['html_url'] && !issue['assignee']
+    end
     haml :repos
   else
     redirect '/'

@@ -1,7 +1,11 @@
 .span10.box
-  %img{ src: "images/shared/octocats.png" }
-  %ul
-    - @repo_names.each do |name|
-      %li= name
+  %img{ src: "/images/shared/octocats.png" }
+  %dl
+    - @issues.each do |issue|
+      %div{ class: 'alert alert-info' }
+        %dt= issue['title']
+        %dd
+          = issue['repository']['full_name']
+          = issue['assignee']
   %small
     © Absolventa GmbH 2013-2014
