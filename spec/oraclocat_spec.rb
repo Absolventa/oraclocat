@@ -58,29 +58,28 @@ describe "Oraclocat" do
       expect(last_response.headers['Location']).to eql 'http://example.org/'
     end
 
-    it 'lists all repos of a given org' do
+    it 'lists all issues of a given org' do
       orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
       expect_any_instance_of(GH::User).to receive(:orgs).
         and_return(orgs)
       allow_any_instance_of(GH::Client).to receive(:user).
         and_return GH::User.new(double(fetch: true))
 
-      repolist = [{
-        'id' => '47110815',
-        'name' => 'streetcountdown',
-        'full_name' => 'Absolventa/streetcountdown',
-        'owner' => {
-          'login' => 'Abslolventa',
-          'type' => 'Organization'
+      issueslist = [{
+        'id' => 47110815,
+        'title' => 'Play streetcountdown',
+        'repository' => {
+          'full_name' => 'Absolventa/streetcountdown'
         },
-        'private' => true,
-        'description' => 'I have my long undergarments, so I should be ok',
-        'collaborators_url' => 'oh yeah baby, right there!'
+        'assignee' => nil,
+        'pull_request' => {
+          'html_url' => 'https://example.com'
+        }
       }]
       expect_any_instance_of(GH::Client).
         to receive(:fetch).
-        with('https://api.github.com/orgs/Abslolventa/repos').
-        and_return(repolist)
+        with('https://api.github.com/orgs/Abslolventa/issues?filter=created&state=open').
+        and_return(issueslist)
 
       get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
       expect(last_response).to be_ok
