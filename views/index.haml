@@ -4,7 +4,7 @@
     %h1 Who's gonna merge?
     %p
       - if current_user
-        Logged in as #{current_user.name} -
+        Logged in as <span title="#{access_token}">#{current_user.name}</span> -
         %a{ href: '/logout' }
           Logout
       - else
