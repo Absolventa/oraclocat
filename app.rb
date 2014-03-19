@@ -63,6 +63,24 @@ get '/orgs/:org' do
   end
 end
 
+post '/orgs/:org/:repo/:issue/assign/:assignee' do
+  if access_token
+    result = RestClient.post(
+      "https://api.github.com/repos/#{params[:org]}/#{params[:repo]}/issues/#{params[:issue]}/comments",
+      {
+        body: "Oraclocat has spoken: @#{params[:assignee]} will merge this PR!"
+      }.to_json,
+        'content_type' => :json,
+        'accept' => :json,
+        'Authorization' => "token #{access_token}"
+    )
+    @url = JSON.parse(result)['url']
+    "Assigned! <a href='#{@url}'>@#{params[:assignee]} was assigned!</a>"
+  else
+    redirect '/'
+  end
+end
+
 get '/logout' do
   session.clear
   redirect '/'

@@ -8,9 +8,10 @@
         %dd
           = issue['repository']['full_name']
           = issue['assignee']
-        %div.btn
-          Let
-          = issue['merger']
-          merge!
+        %form{ action: "/orgs/#{params[:org]}/#{issue['repository']['name']}/#{issue['number']}/assign/#{issue['merger']}", method: 'post' }
+          %button{ class: "btn" }
+            Let
+            = issue['merger']
+            merge!
   %small
     © Absolventa GmbH 2013-2014
