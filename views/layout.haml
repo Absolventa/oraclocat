@@ -3,9 +3,22 @@
   %head
     %meta{:charset => "utf-8"}
     %link{:rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon" }
+    %link{href: "http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700", rel: "stylesheet" }
     %link{href: "/stylesheets/bootstrap.css", rel: "stylesheet"}
     %link{href: "/stylesheets/oraclocat.css", rel: "stylesheet"}
     %title Oraclocat
   %body
     .container
+      .span12
+        %center
+          %h1 Who's gonna merge?
+          %p
+            .bowl-wrapper
+              .cat
+              .bowl
+              .smaller-bowl
+              .smaller-bowl.shadow
+              .bowl-text
+                ?
+
       = yield
