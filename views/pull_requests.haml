@@ -1,6 +1,9 @@
-.span10.box
-  %a{ href: '/' }
-    %img{ src: '/images/shared/octocats.png' }
+.span12
+  - if @issues.count < 1
+    .alert.alert-warning
+      .center
+        No open pull requests
+
   %dl
     - @issues.each do |issue|
       %div{ class: 'alert alert-info' }
@@ -13,5 +16,3 @@
             Let
             = issue['merger']
             merge!
-  %small
-    © Absolventa GmbH 2013-2014
