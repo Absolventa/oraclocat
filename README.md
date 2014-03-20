@@ -11,7 +11,7 @@ Oraclocat needs a Github Application for its authentication system to work: [reg
 
 You may want to create a seperate app for your development box and define `http://localhost:9292/callback` as the auth callback.
 
-Copy `.dotenv-sample` to `.dotenv` and put your **Client Id** and **Client Secret** in there. Do **not** put the file under version control (it's in .gitignore).
+Copy `.env-sample` to `.env` and put your **Client Id** and **Client Secret** in there. Do **not** put the file under version control (it's in .gitignore).
 
 ### Running the App
 
