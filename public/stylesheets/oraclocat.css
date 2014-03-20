@@ -1,5 +1,11 @@
 body {
-  background-color: #ccc;
+  background: #fff;
+  font-family: 'Source Code Pro';
+}
+
+h1 {
+  text-transform: uppercase;
+  color: #333;
 }
 
 h4 {
@@ -11,6 +17,14 @@ h5 {
   font-size: 12px;
   color: black;
   font-style: italic;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.center {
+  text-align: center;
 }
 
 .box-mini{
@@ -28,13 +42,75 @@ h5 {
   margin-left: 75px;
   text-align: left;
 }
-.box {
-  clear: both;
-  overflow: hidden;
-  font-family: "Helvetica";
-  text-align: center;
-  margin: 50px;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 15px;
+
+.bowl-wrapper {
+  position: relative;
+  margin: 65px 0 20px 0;
 }
+
+.bowl-wrapper .cat {
+  background: url('../images/shared/octocatbg.png') no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin-left: 75px;
+  z-index: -1;
+  height: 480px;
+  top: -38px;
+}
+
+.bowl {
+  height: 500px;
+  width: 500px;
+  background: #000;
+  border: 1px solid #000;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.bowl-text {
+  position: absolute;
+  top: 235px;
+  font-size: 150px;
+  left: 50%;
+  margin-left: -45px;
+  z-index: 999;
+  -webkit-animation: move 2s infinite alternate;
+  animation: move 2s infinite alternate;
+}
+
+.smaller-bowl {
+  position: absolute;
+  top: 125px;
+  left: 50%;
+  margin-left: -125px;
+  height: 250px;
+  width: 250px;
+  background: #eaeaea;
+  border: 1px solid #222;
+  border-radius: 50%;
+  z-index: 99;
+}
+
+.smaller-bowl.shadow {
+  height: 242px;
+  width: 242px;
+  margin-left: -121px;
+  top: 129px;
+  background: #acd9f5;
+  box-shadow: inset 0 0 40px #000000;
+  z-index: 888;
+}
+
+
+@keyframes move
+{
+  from {top:220px;}
+  to {top:245px;}
+}
+
+@-webkit-keyframes move /* Safari and Chrome */
+{
+  from {top:220px;}
+  to {top:245px;}
+} 
