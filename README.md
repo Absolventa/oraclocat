@@ -2,11 +2,17 @@
 
 If you don't know who's gonna merge your Pull Request - Oraclocat knows!
 
-## Before you can ask...
 
-create a developers.rb file in oraclocats main directory defining a hash
-of available developers like
+## Installation
 
-    DEVELOPERS = {
-        "Nathan der Weise" => { github: "@nathan" }
-      }
+### Github Application
+
+Oraclocat needs a Github Application for its authentication system to work: [register a Github application here](https://github.com/settings/applications/new). The authorization callback URL must point to `http(s)://yourdomain/callback`.
+
+You may want to create a seperate app for your development box and define `http://localhost:9292/callback` as the auth callback.
+
+Copy `.dotenv-sample` to `.dotenv` and put your **Client Id** and **Client Secret** in there. Do **not** put the file under version control (it's in .gitignore).
+
+### Running the App
+
+`rackup config.ru` will launch the app at `localhost:9292`.
