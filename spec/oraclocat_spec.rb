@@ -58,41 +58,49 @@ describe "Oraclocat" do
       expect(last_response.headers['Location']).to eql 'http://example.org/'
     end
 
-    it 'lists all issues of a given org' do
-      orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
-      expect_any_instance_of(GH::User).to receive(:orgs).
-        and_return(orgs)
-      allow_any_instance_of(GH::Client).to receive(:user).
-        and_return GH::User.new(double(fetch: true))
+    context 'with valid access token' do
+      before do
+        orgs = [GH::Org.new(login: 'Acme'), GH::Org.new(login: 'Abslolventa')]
+        expect_any_instance_of(GH::User).to receive(:orgs).
+          and_return(orgs)
+        allow_any_instance_of(GH::Client).to receive(:user).
+          and_return GH::User.new(double(fetch: true))
+      end
 
-      issueslist = [{
-        'id' => 47110815,
-        'title' => 'Play streetcountdown',
-        'repository' => {
-          'name' => 'streetcountdown',
-          'full_name' => 'Absolventa/streetcountdown'
-        },
-        'assignee' => nil,
-        'pull_request' => {
-          'html_url' => 'https://example.com'
-        }
-      }]
-      expect_any_instance_of(GH::Client).
-        to receive(:fetch).
-        with('https://api.github.com/orgs/Abslolventa/issues?filter=created&state=open').
-        and_return(issueslist)
+      it 'lists all issues of a given org' do
+        stub_issues! [{
+          'id' => 47110815,
+          'title' => 'Play streetcountdown',
+          'repository' => {
+            'name' => 'streetcountdown',
+            'full_name' => 'Absolventa/streetcountdown'
+          },
+          'assignee' => nil,
+          'pull_request' => {
+            'html_url' => 'https://example.com'
+          }
+        }]
 
-      collabslist = [{
-        'login' => 'moss'
-      }]
-      expect_any_instance_of(GH::Client).
-        to receive(:fetch).
-        with('https://api.github.com/repos/Abslolventa/streetcountdown/collaborators').
-        and_return(collabslist)
+        stub_collabs! [{ 'login' => 'moss' }]
 
-      get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
-      expect(last_response).to be_ok
-      expect(last_response.body).to match 'streetcountdown'
+        get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
+        expect(last_response).to be_ok
+        expect(last_response.body).to match 'streetcountdown'
+      end
+
+      def stub_collabs!(collabslist)
+        expect_any_instance_of(GH::Client).
+          to receive(:fetch).
+          with('https://api.github.com/repos/Abslolventa/streetcountdown/collaborators').
+          and_return(collabslist)
+      end
+
+      def stub_issues!(issueslist)
+        expect_any_instance_of(GH::Client).
+          to receive(:fetch).
+          with('https://api.github.com/orgs/Abslolventa/issues?filter=created&state=open').
+          and_return(issueslist)
+      end
     end
   end
 
