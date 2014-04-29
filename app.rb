@@ -48,7 +48,7 @@ get '/orgs/:org' do
     issues = github_client.fetch "https://api.github.com/orgs/#{org.login}/issues?filter=created&state=open"
 
     @issues = issues.select do |issue|
-      issue['pull_request']['html_url'] && !issue['assignee']
+      issue.fetch('pull_request', {})['html_url'] && !issue['assignee']
     end.map do |issue|
       repo = issue['repository']['name']
       collaborators_url = "https://api.github.com/repos/#{org.login}/#{repo}/collaborators"
