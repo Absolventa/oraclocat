@@ -88,6 +88,22 @@ describe "Oraclocat" do
         expect(last_response.body).to match 'streetcountdown'
       end
 
+      it 'does not list issues that are not pull requests' do
+        stub_issues! [{
+          'id' => 47110815,
+          'title' => 'Play streetcountdown',
+          'repository' => {
+            'name' => 'streetcountdown',
+            'full_name' => 'Absolventa/streetcountdown'
+          },
+          'assignee' => nil
+        }]
+
+        get '/orgs/Abslolventa', {}, { 'rack.session' => { 'access_token' => 'is present' } }
+        expect(last_response).to be_ok
+        expect(last_response.body).not_to match 'streetcountdown'
+      end
+
       def stub_collabs!(collabslist)
         expect_any_instance_of(GH::Client).
           to receive(:fetch).
