@@ -3,7 +3,6 @@ require 'sinatra'
 require 'sinatra/url_for'
 require 'sinatra/static_assets'
 require './helpers'
-require './developers'
 require 'gh/org'
 require 'gh/user'
 require 'gh/client'
@@ -25,11 +24,6 @@ end
 
 # Public
 get '/' do
-  haml :index
-end
-
-get '/aleaiactaest' do
-  @merger = choose_from DEVELOPERS
   haml :index
 end
 

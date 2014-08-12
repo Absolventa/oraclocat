@@ -14,14 +14,5 @@
       - else
         %a{ href: github_login_path, class: 'btn btn-medium' }
           Login with GitHub
-    - if current_user
-      %form{ action: '/aleaiactaest' }
-        %p
-          %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
-  - if @merger
-    .box-mini
-      %h4 Oraclocat says:
-      %h2 #{@merger} will merge your Pull Request!
-      %h6 Go for it, #{DEVELOPERS[@merger][:github]}!
   %small
     © Absolventa GmbH 2013-2014
