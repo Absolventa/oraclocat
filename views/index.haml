@@ -14,9 +14,10 @@
       - else
         %a{ href: github_login_path, class: 'btn btn-medium' }
           Login with GitHub
-    %form{ action: '/aleaiactaest' }
-      %p
-        %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
+    - if current_user
+      %form{ action: '/aleaiactaest' }
+        %p
+          %button{ type: 'submit', class: 'btn btn-large'} Ask Oraclocat
   - if @merger
     .box-mini
       %h4 Oraclocat says:
