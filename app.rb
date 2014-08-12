@@ -47,16 +47,16 @@ get '/orgs/:org' do
     org = current_user.orgs.detect{|o| o.login == params[:org]}
     issues = github_client.fetch "https://api.github.com/orgs/#{org.login}/issues?filter=created&state=open"
 
-    @issues = issues.select do |issue|
+    @issues = issues.select { |issue|
       issue.fetch('pull_request', {})['html_url'] && !issue['assignee']
-    end.map do |issue|
+    }.map { |issue|
       repo = issue['repository']['name']
       collaborators_url = "https://api.github.com/repos/#{org.login}/#{repo}/collaborators"
-      collaborators     = github_client.fetch(collaborators_url).map do |collab|
+      collaborators     = github_client.fetch(collaborators_url).map { |collab|
         collab['login'] if collab['login'] != current_user.login
-      end.compact
+      }.compact
       issue.merge('merger' => collaborators.sample)
-    end
+    }
     haml :pull_requests
   else
     redirect '/'
