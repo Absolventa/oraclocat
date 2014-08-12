@@ -83,8 +83,4 @@ end
 # Helpers
 helpers do
   include Oraclocat::Helpers
-
-  def choose_from(collection)
-    collection.keys[rand(collection.keys.length)-1]
-  end
 end
