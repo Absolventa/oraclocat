@@ -4,9 +4,9 @@
   %dl
     - @issues.each do |issue|
       %div{ class: 'alert alert-info' }
-        %dt= issue['title']
+        %dt= link_to issue['title'], issue['pull_request']['html_url'], class: 'gh-link', target: '_blank'
         %dd
-          = issue['repository']['full_name']
+          = link_to issue['repository']['full_name'], "https://github.com/#{issue['repository']['full_name']}", class: 'gh-link', target: '_blank'
         %form{ action: "/orgs/#{params[:org]}/#{issue['repository']['name']}/#{issue['number']}/assign/#{issue['merger']}", method: 'post' }
           %button{ class: "btn" }
             Let
