@@ -7,7 +7,6 @@
         %dt= issue['title']
         %dd
           = issue['repository']['full_name']
-          = issue['assignee']
         %form{ action: "/orgs/#{params[:org]}/#{issue['repository']['name']}/#{issue['number']}/assign/#{issue['merger']}", method: 'post' }
           %button{ class: "btn" }
             Let
