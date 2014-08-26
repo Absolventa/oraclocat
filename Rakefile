@@ -1,5 +1,13 @@
-require 'rspec/core/rake_task'
+begin
+  require "rspec/core/rake_task"
 
-RSpec::Core::RakeTask.new(:spec)
+  desc "Run all examples"
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.rspec_opts = %w[--color]
+    t.pattern = 'spec/**/*_spec.rb'
+  end
 
-task default: :spec
+  task default: :spec
+rescue LoadError
+end
+

@@ -9,7 +9,7 @@ gem 'rest_client'
 gem 'dotenv'
 gem 'rake'
 
-group :test do
+group :development, :test do
   gem "rspec"
   gem "rack-test"
 end
