@@ -48,7 +48,7 @@ describe GH::Client do
       url                  = 'http://oraclocat.local'
       subject.access_token = 'foobarbaz'
       stub_github_fetch!(url, client: subject) do
-        { 'hello' => 'negative 1' }
+        { 'hello' => 'negative 1' }.to_json
       end
 
       result = subject.fetch(url)
