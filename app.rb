@@ -6,6 +6,7 @@ require './helpers'
 require 'gh/org'
 require 'gh/user'
 require 'gh/client'
+require 'gh/request'
 
 require 'json'
 require 'rubygems'

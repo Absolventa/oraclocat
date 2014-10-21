@@ -25,17 +25,8 @@ module GH
       self.access_token = JSON.parse(result)['access_token']
     end
 
-    def fetch url
-      result = RestClient::Request.execute(method: :get, url: url, ssl_version: 'TLSv1', headers: {
-          params: {
-            client_id:     client_id,
-            client_secret: client_secret
-          },
-          accept: :json,
-          'Authorization' => "token #{access_token}"
-        }
-      )
-
+    def fetch(url)
+      result = Request.get(url, access_token: access_token, client_id: client_id, client_secret: client_secret)
       JSON.parse(result)
     end
 
