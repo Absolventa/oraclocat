@@ -29,15 +29,7 @@ describe GH::Client do
     let(:access_token) { "foobar-#{rand(10000)}" }
 
     before do
-      expect(RestClient).to receive(:post).
-        with('https://github.com/login/oauth/access_token',
-          {
-            client_id: subject.client_id,
-            client_secret: subject.client_secret,
-            code: code
-          },
-          accept: :json
-        ).and_return({ access_token: access_token }.to_json)
+      stub_github_access_token_endpoint!
     end
 
     it 'returns retrieved token' do
