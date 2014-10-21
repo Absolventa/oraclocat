@@ -36,7 +36,8 @@ module GH
 
     end
 
-    class POST
+    # Template class for HTTP requests with payload data, i.e. POST and PATCH
+    class PayloadBased
       attr_reader :accept, :access_token, :payload, :url
 
       def initialize(url, payload:, accept: :json, access_token: nil, headers: {})
@@ -64,16 +65,13 @@ module GH
       end
 
       def to_sym
-        :post
+        self.class.name.split('::').last.downcase.to_sym
       end
 
     end
 
-    class PATCH < POST # FIXME: inheritance is just for teh lazynezz
-      def to_sym
-        :patch
-      end
-    end
+    class POST  < PayloadBased; end
+    class PATCH < PayloadBased; end
 
     class << self
       def ssl_version
