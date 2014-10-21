@@ -59,7 +59,7 @@ module GH
 
       def headers
         headers = @headers.merge(accept: :json, content_type: :json)
-        headers.merge('Authorization' => "token #{access_token}") if access_token
+        headers.merge!('Authorization' => "token #{access_token}") if access_token
         headers
       end
 
