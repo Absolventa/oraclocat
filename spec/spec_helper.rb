@@ -27,6 +27,22 @@ module NetHttpStubs
       ).
       to_return(status: 200, body: { access_token: access_token }.to_json)
   end
+
+  def stub_github_fetch!(url, client:)
+    return_value = block_given? ? yield : {}
+    stub_request(:get, url).
+      with(
+        query: {
+          client_id:     client.client_id,
+          client_secret: client.client_secret
+        },
+        headers: {
+          'Accept' => 'application/json',
+          'Authorization' => "token #{client.access_token}"
+        }
+      ).
+      to_return(status: 200, body: return_value.to_json)
+  end
 end
 
 RSpec.configure do |config|
