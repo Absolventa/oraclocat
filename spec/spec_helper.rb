@@ -1,3 +1,4 @@
+# vim:ai:fdm=marker
 require 'rubygems'
 require 'bundler'
 
@@ -9,16 +10,18 @@ require File.expand_path '../../app.rb', __FILE__
 ENV["RACK_ENV"] ||= 'test'
 
 module RSpecMixin
+  # {{{
   include Rack::Test::Methods
   def app() Sinatra::Application end
 
   def session
     last_request.env['rack.session']
   end
+  # }}}
 end
 
 module NetHttpStubs
-  def stub_github_access_token_endpoint!
+  def stub_github_access_token_endpoint! # {{{
     stub_request(:post, 'https://github.com/login/oauth/access_token').
       with(
         client_id: app.settings.client_id,
@@ -26,9 +29,9 @@ module NetHttpStubs
         code: code
       ).
       to_return(status: 200, body: { access_token: access_token }.to_json)
-  end
+  end # }}}
 
-  def stub_github_fetch!(url, client:, &return_value)
+  def stub_github_fetch!(url, client:, &return_value) # {{{
     return_value ||= ->() { '' }
     stub_request(:get, url).
       with(
@@ -42,7 +45,7 @@ module NetHttpStubs
         }
       ).
       to_return(status: 200, body: return_value)
-  end
+  end # }}}
 end
 
 RSpec.configure do |config|
