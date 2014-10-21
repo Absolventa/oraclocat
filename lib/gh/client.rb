@@ -11,7 +11,7 @@ module GH
 
     def get_access_token!(code)
       result = RestClient::Request.execute(
-        method: :get,
+        method: :post,
         url: 'https://github.com/login/oauth/access_token',
         ssl_version: 'TLSv1',
         payload: {
