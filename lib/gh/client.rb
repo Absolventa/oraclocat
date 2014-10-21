@@ -10,16 +10,10 @@ module GH
     end
 
     def get_access_token!(code)
-      result = RestClient::Request.execute(
-        method: :post,
-        url: 'https://github.com/login/oauth/access_token',
-        ssl_version: 'TLSv1',
-        payload: {
-            client_id:     client_id,
-            client_secret: client_secret,
-            code:          code
-        },
-        headers: { accept: :json }
+      result = Request.post(
+        'https://github.com/login/oauth/access_token',
+        client_id: client_id, client_secret: client_secret,
+        payload: { code: code }
       )
 
       self.access_token = JSON.parse(result)['access_token']
