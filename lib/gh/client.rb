@@ -12,8 +12,11 @@ module GH
     def get_access_token!(code)
       result = Request.post(
         'https://github.com/login/oauth/access_token',
-        client_id: client_id, client_secret: client_secret,
-        payload: { code: code }
+        payload: {
+          client_id: client_id,
+          client_secret: client_secret,
+          code: code
+        }
       )
 
       self.access_token = JSON.parse(result)['access_token']

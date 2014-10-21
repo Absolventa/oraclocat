@@ -37,13 +37,11 @@ module GH
     end
 
     class POST
-      attr_reader :accept, :access_token, :client_id, :client_secret, :payload, :url
+      attr_reader :accept, :access_token, :payload, :url
 
-      def initialize(url, client_id:, client_secret:, payload:, accept: :json, access_token: nil, headers: {})
+      def initialize(url, payload:, accept: :json, access_token: nil, headers: {})
         @accept        = accept
         @access_token  = access_token
-        @client_id     = client_id
-        @client_secret = client_secret
         @payload       = payload
         @url           = url
         @headers       = headers
@@ -54,7 +52,7 @@ module GH
           method: :post,
           url: url,
           ssl_version: GH::Request.ssl_version,
-          payload: payload.merge(secrets),
+          payload: payload,
           headers: headers
         )
       end
@@ -63,13 +61,6 @@ module GH
         headers = @headers.merge(accept: :json, content_type: :json)
         headers.merge('Authorization' => "token #{access_token}") if access_token
         headers
-      end
-
-      def secrets
-        {
-          client_id:     client_id,
-          client_secret: client_secret
-        }
       end
 
     end
