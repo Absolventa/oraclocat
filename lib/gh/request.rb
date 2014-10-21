@@ -49,7 +49,7 @@ module GH
 
       def execute
         RestClient::Request.execute(
-          method: :post,
+          method: to_sym,
           url: url,
           ssl_version: GH::Request.ssl_version,
           payload: payload,
@@ -63,6 +63,16 @@ module GH
         headers
       end
 
+      def to_sym
+        :post
+      end
+
+    end
+
+    class PATCH < POST # FIXME: inheritance is just for teh lazynezz
+      def to_sym
+        :patch
+      end
     end
 
     class << self
@@ -72,6 +82,10 @@ module GH
 
       def get(*args)
         GET.new(*args).execute
+      end
+
+      def patch(*args)
+        PATCH.new(*args).execute
       end
 
       def post(*args)
