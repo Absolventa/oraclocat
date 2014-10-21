@@ -29,15 +29,7 @@ describe GH::Client do
     let(:access_token) { "foobar-#{rand(10000)}" }
 
     before do
-      expect(RestClient).to receive(:post).
-        with('https://github.com/login/oauth/access_token',
-          {
-            client_id: subject.client_id,
-            client_secret: subject.client_secret,
-            code: code
-          },
-          accept: :json
-        ).and_return({ access_token: access_token }.to_json)
+      stub_github_access_token_endpoint!
     end
 
     it 'returns retrieved token' do
@@ -55,7 +47,9 @@ describe GH::Client do
     it 'makes the request without token' do
       url                  = 'http://oraclocat.local'
       subject.access_token = 'foobarbaz'
-      stub_github_fetch(url) { { 'hello' => 'negative 1' } }
+      stub_github_fetch!(url, client: subject) do
+        { 'hello' => 'negative 1' }.to_json
+      end
 
       result = subject.fetch(url)
       expect(result).to be_a Hash
@@ -74,19 +68,5 @@ describe GH::Client do
     end
   end
 
-  def stub_github_fetch(url)
-    return_value = block_given? ? yield : {}
-    expect(RestClient).to receive(:get).
-      with(url,
-        {
-          params: {
-            client_id:     subject.client_id,
-            client_secret: subject.client_secret
-          },
-          accept: :json,
-          "Authorization" => "token #{subject.access_token}"
-        },
-      ).and_return(return_value.to_json)
-  end
 
 end

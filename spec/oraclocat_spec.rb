@@ -18,19 +18,11 @@ describe "Oraclocat" do
   end
 
   describe 'GET /callback' do
-    it 'takes a session code and asks GH for an access token' do
-      code         = 'somecode'
-      access_token = 'my_access_token'
+    let(:access_token) { 'my_access_token' }
+    let(:code) { 'somecode' }
 
-      expect(RestClient).to receive(:post).
-        with('https://github.com/login/oauth/access_token',
-          {
-            client_id: app.settings.client_id,
-            client_secret: app.settings.client_secret,
-            code: code
-          },
-          accept: :json
-        ).and_return({ access_token: access_token }.to_json)
+    it 'takes a session code and asks GH for an access token' do
+      stub_github_access_token_endpoint!
 
       get "/callback?code=#{code}"
       expect(session[:access_token]).to eql access_token

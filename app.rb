@@ -6,6 +6,7 @@ require './helpers'
 require 'gh/org'
 require 'gh/user'
 require 'gh/client'
+require 'gh/request'
 
 require 'json'
 require 'rubygems'
@@ -59,24 +60,16 @@ end
 
 post '/orgs/:org/:repo/:issue/assign/:assignee' do
   if access_token
-    RestClient.post(
-      "https://api.github.com/repos/#{params[:org]}/#{params[:repo]}/issues/#{params[:issue]}/comments",
-      {
-        body: "Oraclocat has spoken: @#{params[:assignee]} will merge this PR!"
-      }.to_json,
-        'content_type' => :json,
-        'accept' => :json,
-        'Authorization' => "token #{access_token}"
-    )
-    result = RestClient.patch(
-      "https://api.github.com/repos/#{params[:org]}/#{params[:repo]}/issues/#{params[:issue]}",
-      {
-        assignee: params[:assignee]
-      }.to_json,
-        'content_type' => :json,
-        'accept' => :json,
-        'Authorization' => "token #{access_token}"
-    )
+    # Post a comment
+    url  = "https://api.github.com/repos/#{params[:org]}/#{params[:repo]}/issues/#{params[:issue]}/comments"
+    body = { body: "Oraclocat has spoken: @#{params[:assignee]} will merge this PR!" }.to_json
+    GH::Request.post(url, payload: body, headers: { content_type: :json }, access_token: access_token)
+
+    # Assign issue
+    url    = "https://api.github.com/repos/#{params[:org]}/#{params[:repo]}/issues/#{params[:issue]}"
+    body   = { assignee: params[:assignee] }.to_json
+    result = GH::Request.patch(url, payload: body, headers: { content_type: :json }, access_token: access_token)
+
     @url = JSON.parse(result)['url']
     "Assigned! <a href='#{@url}'>@#{params[:assignee]} was assigned!</a>"
   else
